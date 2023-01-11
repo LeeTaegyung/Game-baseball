@@ -7,11 +7,13 @@
     // 숫자o 위치o -> strike
     // 3s 되면 게임종료
 
+    const stage = document.querySelector('.stage');
+    const desc = document.querySelector('.game_desc');
     const numList = document.querySelectorAll('.num span');
-    const numVal = document.getElementById('numVal');
-    const numValBtn = document.getElementById('numValBtn');
+    const numInput = document.getElementById('numInput');
+    const numBtn = document.getElementById('numBtn');
     const note = document.querySelector('.note');
-    const timeVal = document.querySelector('.time_val');
+    const timeEl = document.querySelector('.time_val');
     const gameStartBtn = document.querySelector('.game_start');
     const state = {
         isStart: false,
@@ -21,12 +23,23 @@
     let resultVal = [];
     let timeControl = undefined;
     let timeInitVal = 30;
-    let timeIdx = timeInitVal;
+    let timeVal = timeInitVal;
 
-    function init() {
-        numVal.focus();
-        timeVal.innerHTML = timeIdx;
-        getNum();
+    function gameStart() {
+        if(state.isStart) return;
+
+        new Promise((resolve) => {
+            desc.classList.add('start');
+            stage.classList.add('on');
+            timeEl.innerHTML = timeVal;
+            state.isStart = true;
+            getNum();
+            setTimeout(function(){
+                resolve();
+            }, 1100)
+        }).then(() => {
+            timeOut();
+        })
     }
 
     function getNum() {
@@ -46,15 +59,17 @@
     function timeOut() {
         timeControl = setInterval(function(){
 
-            timeIdx--;
+            timeVal--;
 
-            timeVal.innerHTML = timeIdx;
+            timeEl.innerHTML = timeVal;
 
-            if(timeIdx == 0) {
-                // 게임종료
-                state.isOver = true;
+            if(timeVal == 0) {
+                state.isStart = false;
                 clearInterval(timeControl);
-                numVal.setAttribute('disabled', true);
+                numInput.setAttribute('disabled', true);
+
+                // 게임종료 모션
+
             }
 
         }, 1000)
@@ -69,61 +84,65 @@
 
         note.scrollTop = note.scrollHeight;
         clearInterval(timeControl);
-        timeIdx = timeInitVal;
-        timeVal.innerHTML = timeIdx;
+        timeVal = timeInitVal;
+        timeEl.innerHTML = timeVal;
         timeOut();
     }
 
     function getBallStrike() {
 
-        if(state.isOver || state.isClear || state.isStart) return;
+        if(!state.isStart) return;
 
-        const regexr = /^\d+$/;
+        const regexr = /^[1-9]{3}$/;
         let txtArr, ball, strike;
+        let dupleArr = new Set(numInput.value);
 
-        if(!numVal.value.match(regexr)) {
-            alert('숫자만 입력해주세요.');
-            numVal.value = '';
+        // 조건 검열
+        if(!regexr.test(numInput.value)) {
+            alert('1~9 중 3자리를 입력해주세요.');
+            numInput.value = '';
             return;
-        } else if(numVal.value.length !== 3) {
-            alert('3자리 숫자를 입력해주세요.');
-            numVal.value = '';
+        } else if(numInput.value.length > dupleArr.size) {
+            alert('똑같은 숫자 2개이상 입력 할 수 없습니다.');
+            numInput.value = '';
             return;
         }
-        
-        if(timeControl === undefined) timeOut();
 
-        txtArr = numVal.value.split('').map(ele => +ele);
+        // 입력 받은 글자 배열로 변환
+        txtArr = numInput.value.split('').map(ele => parseInt(ele));
 
+        // 볼 / 스트라이크 확인
         ball = txtArr.filter((ele, idx) => { return resultVal.includes(ele) && ele !== resultVal[idx] });
         strike = txtArr.filter((ele, idx) => {return resultVal.includes(ele) && ele === resultVal[idx]});
 
-        createNoteItem(numVal.value, ball.length, strike.length);
+        // 입력한 값 note 영역에 추가
+        createNoteItem(numInput.value, ball.length, strike.length);
 
-        numVal.value = '';
+        // input 초기화
+        numInput.value = '';
 
+        // 만약에 정답이면(스트라이크가 3개이면) 게임 종료
         if(strike.length === resultVal.length) {
-            state.isClear = true;
-            numVal.setAttribute('disabled', true);
+            state.isStart = false;
+            numInput.setAttribute('disabled', true);
             clearInterval(timeControl);
+
+            // 게임 클리어 모션
+
         } else {
-            numVal.focus();
+            numInput.focus();
         }
     }
 
-    gameStartBtn.addEventListener('click', function(){
-        document.querySelector('.game_desc').classList.add('start');
-        document.querySelector('.box').classList.add('on');
-    })
 
-    numValBtn.addEventListener('click', getBallStrike);
-    numVal.addEventListener('keyup', function(e){
+    gameStartBtn.addEventListener('click', gameStart);
+    numBtn.addEventListener('click', getBallStrike);
+    numInput.addEventListener('keyup', function(e){
         if(e.keyCode == 13) {
             getBallStrike();
         }
     })
 
-    init();
 
 
 })()

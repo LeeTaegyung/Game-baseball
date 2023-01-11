@@ -21,6 +21,7 @@ html, body {
   font-family: "Bakbak One", "Do Hyeon", cursive, sans-serif;
   perspective: 1000px;
   transform-style: preserve-3d;
+  overflow: hidden;
 }
 
 :root {
@@ -40,15 +41,6 @@ html, body {
   animation: bgAni 10s linear infinite alternate;
   overflow: hidden;
 }
-#wrap .test {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(200%, -50%);
-  width: 100%;
-  height: 100px;
-  background: red;
-}
 #wrap .game_desc {
   position: absolute;
   top: 50%;
@@ -59,7 +51,7 @@ html, body {
   z-index: 1;
 }
 #wrap .game_desc.start {
-  transform: translateX(-200%) rotate(-30deg);
+  transform: translate(-1000%, -50%) rotate(-30deg) skew(30deg);
   transition: all 1s;
 }
 #wrap .game_desc h1 {
@@ -98,59 +90,60 @@ html, body {
   border-radius: 5px;
   cursor: pointer;
 }
-#wrap .box {
+#wrap .stage {
   position: absolute;
   top: 50%;
   left: 50%;
   display: flex;
   border: 3px solid var(--main-color);
   padding: 10px;
-  transform: translate(200%, -50%) rotate(-30deg);
+  transform: translate(1000%, -50%) rotate(-30deg) skew(30deg);
   transform-origin: left top;
 }
-#wrap .box.on {
+#wrap .stage.on {
   transform: translate(-50%, -50%) rotate(0deg);
-  transition: all 1s 1s;
+  transition: all 1s;
 }
-#wrap .box .time {
+#wrap .stage .time {
   position: absolute;
   bottom: calc(100% + 5px);
   left: 0;
   font-size: 20px;
 }
-#wrap .box .time .time_val {
+#wrap .stage .time .time_val {
   font-size: 30px;
 }
-#wrap .box .question {
+#wrap .stage .question {
   display: flex;
   flex-direction: column;
   width: 460px;
+  overflow: hidden;
 }
-#wrap .box .question .num {
+#wrap .stage .question .num {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
 }
-#wrap .box .question .num span {
+#wrap .stage .question .num span {
   display: block;
   border: 3px solid var(--main-color);
   width: 146px;
   font-size: 100px;
   text-align: center;
 }
-#wrap .box .question .num span + span {
+#wrap .stage .question .num span + span {
   margin-left: 10px;
 }
-#wrap .box .question .input_row {
+#wrap .stage .question .input_row {
   display: flex;
   align-items: center;
   height: 50px;
   margin-top: auto;
 }
-#wrap .box .question .input_row input {
+#wrap .stage .question .input_row input {
   display: block;
-  width: 100%;
+  width: 350px;
   height: 100%;
   margin-right: 10px;
   border: 3px solid var(--main-color);
@@ -161,7 +154,7 @@ html, body {
   box-shadow: none;
   flex: 1;
 }
-#wrap .box .question .input_row button {
+#wrap .stage .question .input_row button {
   display: block;
   width: 100px;
   height: 100%;
@@ -174,7 +167,7 @@ html, body {
   flex: 0 0 auto;
   cursor: pointer;
 }
-#wrap .box .note {
+#wrap .stage .note {
   margin-left: 10px;
   width: 300px;
   max-height: 300px;
@@ -182,7 +175,7 @@ html, body {
   padding: 5px 10px 15px;
   overflow-y: auto;
 }
-#wrap .box .note > div {
+#wrap .stage .note > div {
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid var(--main-color);
