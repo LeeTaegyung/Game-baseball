@@ -74,7 +74,6 @@
             }
         }
 
-        console.log(resultVal);
     }
 
     function timeOut() {
