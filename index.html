@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script defer src="./assets/js/script.js"></script>
+    <title>숫자야구게임</title>
+</head>
+<body>
+    <div id="wrap">
+        <div class="game_desc">
+            <h1>숫자야구게임</h1>
+            <ul>
+                <li>1 ~ 9 까지 랜덤으로 나오는 세자리 숫자를 맞추는 게임입니다.</li>
+                <li>숫자는 맞는데 자리수가 틀렸으면 1 Ball, <br>숫자와 자리수까지 맞으면 1 Strike 입니다.</li>
+                <li>중복된 숫자나, 숫자가 아니거나, 3자리가 아니면 입력되지 않습니다.</li>
+                <li>제한시간 30초안에 입력을 안하면 실패로 게임이 종료됩니다.</li>
+                <li>컴퓨터가 제시한 숫자를 맞추면 성공입니다.</li>
+            </ul>
+            <button type="button" class="game_start">게임 시작!</button>
+        </div>
+        <div class="box">
+            <div class="time"><span class="time_val"></span>s</div>
+            <div class="question">
+                <div class="num">
+                    <span>?</span>
+                    <span>?</span>
+                    <span>?</span>
+                </div>
+                <div class="input_row">
+                    <input type="tel" name="" id="numVal" maxlength="3">
+                    <button type="button" id="numValBtn">입력</button>
+                </div>
+            </div>
+            <div class="note"></div>
+        </div>
+    </div>
+</body>
+</html>
