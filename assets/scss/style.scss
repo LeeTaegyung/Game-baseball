@@ -14,7 +14,7 @@
     perspective: 1000px;
     transform-style: preserve-3d;
     animation: bgAni 10s linear infinite alternate;
-    overflow: hidden;
+    // overflow: hidden;
 
     .game_desc {
         position: absolute;
@@ -24,10 +24,10 @@
         border: 3px solid var(--main-color);
         padding: 30px;
         z-index: 1;
-        transition: all 1s;
 
         &.start {
             transform: translateX(-200%) rotate(-30deg);
+            transition: all 1s;
         }
 
         h1 {
@@ -73,6 +73,7 @@
 
 
     .box {
+        display: none;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -82,11 +83,11 @@
         // opacity: 0;
         transform: translateX(200%) rotate(-30deg);
         transform-origin: left top;
-        transition: all 1s 1s;
 
         &.on {
             // opacity: 1;
             transform: translate(-50%, -50%) rotate(0deg);
+            transition: all 1s 1s;
         }
 
         .time {
