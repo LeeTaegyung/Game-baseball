@@ -1,12 +1,5 @@
 (() => {
-    // input 숫자만 입력할 수 있게 조건걸기.
-    // form validation
-    // 15초 시간제한
-    // 1~9 숫자 랜덤, 중복x
-    // 숫자o 위치x -> ball
-    // 숫자o 위치o -> strike
-    // 3s 되면 게임종료
-
+    const wrap = document.getElementById('wrap');
     const stage = document.querySelector('.stage');
     const desc = document.querySelector('.game_desc');
     const numList = document.querySelectorAll('.num span');
@@ -24,6 +17,34 @@
     let timeControl = undefined;
     let timeInitVal = 30;
     let timeVal = timeInitVal;
+    const gameOverTxt = `
+        <svg viewBox="0 0 280 51" width="50%" height="50%">
+            <text x="0" y="90%">g</text>
+            <text x="30" y="90%">a</text>
+            <text x="60" y="90%">m</text>
+            <text x="110" y="90%">e</text>
+            <text x="150" y="90%">o</text>
+            <text x="180" y="90%">v</text>
+            <text x="205" y="90%">e</text>
+            <text x="230" y="90%">r</text>
+            <text x="250" y="90%">!</text>
+        </svg>
+    `;
+    const gameClearTxt = `
+        <svg viewBox="0 0 350 51" width="50%" height="50%">
+            <text x="0" y="90%">g</text>
+            <text x="30" y="90%">a</text>
+            <text x="60" y="90%">m</text>
+            <text x="110" y="90%">e</text>
+            <text x="150" y="90%">c</text>
+            <text x="180" y="90%">l</text>
+            <text x="200" y="90%">e</text>
+            <text x="230" y="90%">a</text>
+            <text x="260" y="90%">r</text>
+            <text x="280" y="90%">~</text>
+            <text x="300" y="100%">~</text>
+        </svg>
+    `;
 
     function gameStart() {
         if(state.isStart) return;
@@ -69,6 +90,10 @@
                 numInput.setAttribute('disabled', true);
 
                 // 게임종료 모션
+                const gameOverEl = document.createElement('div');
+                gameOverEl.classList.add('game_over');
+                gameOverEl.innerHTML = gameOverTxt;
+                wrap.appendChild(gameOverEl);
 
             }
 
@@ -128,6 +153,11 @@
             clearInterval(timeControl);
 
             // 게임 클리어 모션
+            const gameClearEl = document.createElement('div');
+            gameClearEl.classList.add('game_clear');
+            gameClearEl.innerHTML = gameClearTxt;
+            wrap.appendChild(gameClearEl);
+
 
         } else {
             numInput.focus();
@@ -142,6 +172,7 @@
             getBallStrike();
         }
     })
+
 
 
 
