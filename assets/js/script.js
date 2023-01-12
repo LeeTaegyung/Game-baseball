@@ -45,8 +45,6 @@
             }
         }
 
-        console.log(resultVal);
-
     }
 
     function timeOut() {
@@ -120,7 +118,7 @@
     function gameEnd(type) {
         const gameEndEl = document.createElement('div');
         const gameResetEl = document.createElement('button');
-        let typeClass, gameMotionTxt;
+        let typeClass, gameMotionTxt, ttl, desc;
         
         state.isStart = false;
         clearInterval(timeControl);
@@ -143,6 +141,12 @@
                     <text x="300" y="100%">~</text>
                 </svg>
             `;
+            ttl = document.createElement('h2');
+            desc = document.createElement('p');
+            ttl.classList.add('game_result_ttl')
+            ttl.innerHTML = '게임 결과';
+            desc.classList.add('game_result_desc')
+            desc.innerHTML = `count: <span class="count">${note.querySelectorAll('div').length}</span>`;
 
         } else if(type === 'over') {
             typeClass = 'game_over';
@@ -164,10 +168,17 @@
         gameResetEl.classList.add('reset_btn');
         gameResetEl.innerHTML = '다시 시작하기';
         gameEndEl.classList.add(typeClass);
-        gameEndEl.innerHTML = gameMotionTxt;
 
+        gameEndEl.innerHTML = gameMotionTxt;
         gameEndEl.appendChild(gameResetEl);
+
         wrap.appendChild(gameEndEl);
+        if(type === 'clear'){
+            gameEndEl.insertBefore(desc, gameEndEl.firstChild);
+            gameEndEl.insertBefore(ttl, gameEndEl.firstChild);
+        }
+
+        console.log(note.querySelectorAll('div').length);
 
         gameResetEl.addEventListener('click', function(){
             //초기화

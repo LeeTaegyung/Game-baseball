@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background: rgba(255, 255, 255, .4);
+    background: rgba(255, 255, 255, .9);
     z-index: 111;
 }
 
@@ -242,16 +242,47 @@
 
     }
 
+    .game_result_ttl {
+        font-size: 50px;
+        color: #252525;
+    }
+
+    .game_result_desc {
+        font-size: 30px;
+        color: #252525;
+        text-transform: uppercase;
+
+        .count {
+            font-size: 40px;
+            color: red;
+            text-shadow: 1px 1px #16345a, -1px -1px #16345a;
+            vertical-align: baseline;
+        }
+    }
+
     .reset_btn {
         display: block;
         padding: 5px 12px;
-        border: none;
+        border: 1px solid #252525;
         font-size: 26px;
         font-weight: 700;
         color: #252525;
         background: #fff;
         border-radius: 4px;
         cursor: pointer;
+    }
+
+    .notice {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+
+        span {
+            color: yellow;
+            font-size: 18px;
+        }
     }
 
 }
