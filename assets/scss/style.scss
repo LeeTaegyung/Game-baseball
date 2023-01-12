@@ -4,6 +4,41 @@
     --main-color: #fff;
 }
 
+@mixin gameEndWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgba(255, 255, 255, .4);
+    z-index: 111;
+}
+
+@mixin gameEndSvg {
+    display: block;
+    font-size: 64px;
+    font-family: 'Nanum Pen Script', cursive;
+}
+@mixin gameEndSvgNum($color, $num) {
+    stroke: $color;
+    stroke-width: 2px;
+    font-size: 80px;
+    fill: transparent;
+    stroke-dasharray: 210;
+    stroke-dashoffset: 210;
+    animation: gameEndAni 3s linear forwards;
+
+    @for $i from 2 through $num {
+        &:nth-of-type(#{$i}) {
+            animation-delay: #{($i - 1) * 0.1}s;
+        }
+    }
+}
+
 #wrap {
     position: relative;
     display: flex;
@@ -182,73 +217,41 @@
     }
 
     .game_over {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 111;
+        @include gameEndWrap;
             
         svg {
-            display: block;
-            font-size: 64px;
-            font-family: 'Nanum Pen Script', cursive;
+            @include gameEndSvg;
 
             text {
-                stroke: red;
-                stroke-width: 2px;
-                font-size: 80px;
-                fill: transparent;
-                stroke-dasharray: 210;
-                stroke-dashoffset: 210;
-                animation: gameEndAni 3s linear forwards;
-
-                @for $i from 2 through 9 {
-                    &:nth-of-type(#{$i}) {
-                        animation-delay: #{($i - 1) * 0.1}s;
-                    }
-                }
+                @include gameEndSvgNum(red, 9);
             }
         }
 
     }
 
     .game_clear {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 111;
+        @include gameEndWrap;
             
         svg {
-            display: block;
-            font-size: 64px;
-            font-family: 'Nanum Pen Script', cursive;
+            @include gameEndSvg;
 
             text {
-                stroke: #f1c164;
-                stroke-width: 2px;
-                font-size: 80px;
-                fill: transparent;
-                stroke-dasharray: 210;
-                stroke-dashoffset: 210;
-                animation: gameEndAni 3s linear forwards;
-
-                @for $i from 2 through 11 {
-                    &:nth-of-type(#{$i}) {
-                        animation-delay: #{($i - 1) * 0.1}s;
-                    }
-                }
+                @include gameEndSvgNum(#f1c164, 11);
             }
         }
 
+    }
+
+    .reset_btn {
+        display: block;
+        padding: 5px 12px;
+        border: none;
+        font-size: 26px;
+        font-weight: 700;
+        color: #252525;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
 }

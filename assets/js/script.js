@@ -10,41 +10,11 @@
     const gameStartBtn = document.querySelector('.game_start');
     const state = {
         isStart: false,
-        isOver: false,
-        isClear: false,
     };
     let resultVal = [];
     let timeControl = undefined;
     let timeInitVal = 30;
     let timeVal = timeInitVal;
-    const gameOverTxt = `
-        <svg viewBox="0 0 280 51" width="50%" height="50%">
-            <text x="0" y="90%">g</text>
-            <text x="30" y="90%">a</text>
-            <text x="60" y="90%">m</text>
-            <text x="110" y="90%">e</text>
-            <text x="150" y="90%">o</text>
-            <text x="180" y="90%">v</text>
-            <text x="205" y="90%">e</text>
-            <text x="230" y="90%">r</text>
-            <text x="250" y="90%">!</text>
-        </svg>
-    `;
-    const gameClearTxt = `
-        <svg viewBox="0 0 350 51" width="50%" height="50%">
-            <text x="0" y="90%">g</text>
-            <text x="30" y="90%">a</text>
-            <text x="60" y="90%">m</text>
-            <text x="110" y="90%">e</text>
-            <text x="150" y="90%">c</text>
-            <text x="180" y="90%">l</text>
-            <text x="200" y="90%">e</text>
-            <text x="230" y="90%">a</text>
-            <text x="260" y="90%">r</text>
-            <text x="280" y="90%">~</text>
-            <text x="300" y="100%">~</text>
-        </svg>
-    `;
 
     function gameStart() {
         if(state.isStart) return;
@@ -64,6 +34,7 @@
     }
 
     function getNum() {
+        resultVal = [];
         for(let i = 0; i < numList.length; i++) {
             let randomNum = Math.floor(Math.random() * (9 - 1) + 1);
 
@@ -73,6 +44,8 @@
                 i--;
             }
         }
+
+        console.log(resultVal);
 
     }
 
@@ -84,16 +57,7 @@
             timeEl.innerHTML = timeVal;
 
             if(timeVal == 0) {
-                state.isStart = false;
-                clearInterval(timeControl);
-                numInput.setAttribute('disabled', true);
-
-                // 게임종료 모션
-                const gameOverEl = document.createElement('div');
-                gameOverEl.classList.add('game_over');
-                gameOverEl.innerHTML = gameOverTxt;
-                wrap.appendChild(gameOverEl);
-
+                gameEnd('over');
             }
 
         }, 1000)
@@ -147,20 +111,74 @@
 
         // 만약에 정답이면(스트라이크가 3개이면) 게임 종료
         if(strike.length === resultVal.length) {
-            state.isStart = false;
-            numInput.setAttribute('disabled', true);
-            clearInterval(timeControl);
-
-            // 게임 클리어 모션
-            const gameClearEl = document.createElement('div');
-            gameClearEl.classList.add('game_clear');
-            gameClearEl.innerHTML = gameClearTxt;
-            wrap.appendChild(gameClearEl);
-
-
+            gameEnd('clear');
         } else {
             numInput.focus();
         }
+    }
+
+    function gameEnd(type) {
+        const gameEndEl = document.createElement('div');
+        const gameResetEl = document.createElement('button');
+        let typeClass, gameMotionTxt;
+        
+        state.isStart = false;
+        clearInterval(timeControl);
+        numInput.setAttribute('disabled', true);
+
+        if(type === 'clear') {
+            typeClass = 'game_clear';
+            gameMotionTxt = `
+                <svg viewBox="0 0 350 51" width="50%" height="210px">
+                    <text x="0" y="90%">g</text>
+                    <text x="30" y="90%">a</text>
+                    <text x="60" y="90%">m</text>
+                    <text x="110" y="90%">e</text>
+                    <text x="150" y="90%">c</text>
+                    <text x="180" y="90%">l</text>
+                    <text x="200" y="90%">e</text>
+                    <text x="230" y="90%">a</text>
+                    <text x="260" y="90%">r</text>
+                    <text x="280" y="90%">~</text>
+                    <text x="300" y="100%">~</text>
+                </svg>
+            `;
+
+        } else if(type === 'over') {
+            typeClass = 'game_over';
+            gameMotionTxt = `
+                <svg viewBox="0 0 280 51" width="50%" height="210px">
+                    <text x="0" y="90%">g</text>
+                    <text x="30" y="90%">a</text>
+                    <text x="60" y="90%">m</text>
+                    <text x="110" y="90%">e</text>
+                    <text x="150" y="90%">o</text>
+                    <text x="180" y="90%">v</text>
+                    <text x="205" y="90%">e</text>
+                    <text x="230" y="90%">r</text>
+                    <text x="250" y="90%">!</text>
+                </svg>
+            `;
+        }
+        
+        gameResetEl.classList.add('reset_btn');
+        gameResetEl.innerHTML = '다시 시작하기';
+        gameEndEl.classList.add(typeClass);
+        gameEndEl.innerHTML = gameMotionTxt;
+
+        gameEndEl.appendChild(gameResetEl);
+        wrap.appendChild(gameEndEl);
+
+        gameResetEl.addEventListener('click', function(){
+            //초기화
+            timeEl.innerHTML = timeVal;
+            state.isStart = true;
+            getNum();
+            timeOut();
+            numInput.removeAttribute('disabled');
+            gameEndEl.remove();
+            note.innerHTML = '';
+        })
     }
 
 

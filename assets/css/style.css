@@ -192,6 +192,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.4);
   z-index: 111;
 }
 #wrap .game_over svg {
@@ -241,6 +243,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.4);
   z-index: 111;
 }
 #wrap .game_clear svg {
@@ -286,6 +290,17 @@ html, body {
 }
 #wrap .game_clear svg text:nth-of-type(11) {
   animation-delay: 1s;
+}
+#wrap .reset_btn {
+  display: block;
+  padding: 5px 12px;
+  border: none;
+  font-size: 26px;
+  font-weight: 700;
+  color: #252525;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 @keyframes bgAni {
