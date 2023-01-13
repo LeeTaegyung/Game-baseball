@@ -15,6 +15,7 @@
     let timeControl = undefined;
     let timeInitVal = 30;
     let timeVal = timeInitVal;
+    let fireworkInterval;
 
     function gameStart() {
         if(state.isStart) return;
@@ -44,6 +45,8 @@
                 i--;
             }
         }
+
+        console.log(resultVal);
 
     }
 
@@ -176,9 +179,12 @@
         if(type === 'clear'){
             gameEndEl.insertBefore(desc, gameEndEl.firstChild);
             gameEndEl.insertBefore(ttl, gameEndEl.firstChild);
-        }
 
-        console.log(note.querySelectorAll('div').length);
+            fireworkInterval = setInterval(function() {
+                createFireWork(gameEndEl);
+            }, 300)
+
+        }
 
         gameResetEl.addEventListener('click', function(){
             //초기화
@@ -189,7 +195,38 @@
             numInput.removeAttribute('disabled');
             gameEndEl.remove();
             note.innerHTML = '';
+            clearInterval(fireworkInterval);
         })
+    }
+
+    function createParticle(bg, duration) {
+        const item = document.createElement('div');
+        const particle = document.createElement('span');
+        item.classList.add('firework_item');
+        particle.classList.add('particle');
+        particle.style.backgroundColor = bg;
+        particle.style.animationDuration = duration;
+        item.appendChild(particle);
+        
+        return item;
+    }
+
+    function createFireWork(target) {
+        const fireWorkEl = document.createElement('div');
+        const bgColor = ['#EB455F', '#DC0000', '#FFE15D', '#FF6E31', '#F56EB3', 'blue'];
+        const bgRandom = Math.floor(Math.random() * bgColor.length);
+        const particleDuration = Math.floor(Math.random() + 0.5);
+        fireWorkEl.classList.add('firework');
+        fireWorkEl.style.top = `${Math.floor(Math.random() * window.outerHeight)}px`;
+        fireWorkEl.style.left = `${Math.floor(Math.random() * window.outerWidth)}px`;
+        for(let i = 0; i < 12; i++) {
+            fireWorkEl.appendChild(createParticle(bgColor[bgRandom], particleDuration));
+        }
+        target.appendChild(fireWorkEl);
+
+        setTimeout(function(){
+            fireWorkEl.remove();
+        }, 3000);
     }
 
 

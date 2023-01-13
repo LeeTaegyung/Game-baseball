@@ -285,6 +285,91 @@
         }
     }
 
+    .firework {
+        position: absolute;
+        top: 400px;
+        left: 100px;
+        width: 3px;
+        height: 3px;
+        border-radius: 5px;
+        background: #fff;
+        animation: fireworkStart 0.8s forwards ease;
+
+        &_item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: bottom;
+
+            .particle {
+                display: block;
+                width: 3px;
+                height: 3px;
+                background: red;
+                border-radius: 2px;
+                transform: translateY(0) scaleY(0);
+                animation: firework 0.8s forwards cubic-bezier(0.69, 0.38, 0.82, 0.46) 0.85s;
+            }
+    
+            @for $i from 1 through 12 {
+                &:nth-of-type(#{$i}) {
+                    transform: translate(-50%, -50%) rotate(360deg / 12 * ($i - 1));
+                }
+            }
+        }
+
+    }
+
+}
+
+@keyframes fireworkStart {
+    0% {
+        transform: translateY(150px) scale(1);
+        opacity: 1;
+    }
+    10% {
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    80% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        width: 3px;
+        height: 3px;
+    }
+    90% {
+        width: 0;
+        height: 0;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        width: 0;
+        height: 0;
+    }
+}
+
+@keyframes firework{
+    0% {
+        transform: translateY(0px) scaleY(0);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(40px) scaleY(10);
+        opacity: 1;
+    }
+    90% {
+        transform: translateY(80px) scaleY(3);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(120px) scaleY(1);
+        opacity: 0;
+    }
 }
 
 @keyframes bgAni {
