@@ -121,7 +121,9 @@
     function gameEnd(type) {
         const gameEndEl = document.createElement('div');
         const gameResetEl = document.createElement('button');
-        let typeClass, gameMotionTxt, ttl, desc;
+        const gameFirstResetEl = document.createElement('button');
+        const gameBtnRow = document.createElement('div');
+        let typeClass, gameMotionTxt, ttl, resultDesc;
         
         state.isStart = false;
         clearInterval(timeControl);
@@ -145,11 +147,11 @@
                 </svg>
             `;
             ttl = document.createElement('h2');
-            desc = document.createElement('p');
+            resultDesc = document.createElement('p');
             ttl.classList.add('game_result_ttl')
             ttl.innerHTML = '게임 결과';
-            desc.classList.add('game_result_desc')
-            desc.innerHTML = `count: <span class="count">${note.querySelectorAll('div').length}</span>`;
+            resultDesc.classList.add('game_result_desc')
+            resultDesc.innerHTML = `count: <span class="count">${note.querySelectorAll('div').length}</span>`;
 
         } else if(type === 'over') {
             typeClass = 'game_over';
@@ -170,14 +172,19 @@
         
         gameResetEl.classList.add('reset_btn');
         gameResetEl.innerHTML = '다시 시작하기';
+        gameFirstResetEl.classList.add('first_btn');
+        gameFirstResetEl.innerHTML = '설명보고 시작하기';
+        gameBtnRow.classList.add('btns_row');
         gameEndEl.classList.add(typeClass);
 
         gameEndEl.innerHTML = gameMotionTxt;
-        gameEndEl.appendChild(gameResetEl);
+        gameBtnRow.appendChild(gameResetEl);
+        gameBtnRow.appendChild(gameFirstResetEl);
+        gameEndEl.appendChild(gameBtnRow);
 
         wrap.appendChild(gameEndEl);
         if(type === 'clear'){
-            gameEndEl.insertBefore(desc, gameEndEl.firstChild);
+            gameEndEl.insertBefore(resultDesc, gameEndEl.firstChild);
             gameEndEl.insertBefore(ttl, gameEndEl.firstChild);
 
             fireworkInterval = setInterval(function() {
@@ -186,17 +193,27 @@
 
         }
 
-        gameResetEl.addEventListener('click', function(){
-            //초기화
-            timeEl.innerHTML = timeVal;
-            state.isStart = true;
-            getNum();
-            timeOut();
+        gameBtnRow.addEventListener('click', function(e){
+            if(!e.target.closest('button')) return;
+
             numInput.removeAttribute('disabled');
             gameEndEl.remove();
             note.innerHTML = '';
             clearInterval(fireworkInterval);
+
+            if(e.target === gameResetEl) {
+                timeEl.innerHTML = timeVal;
+                state.isStart = true;
+                getNum();
+                timeOut();
+            } else if(e.target === gameFirstResetEl) {
+                desc.classList.remove('start');
+                stage.classList.remove('on');
+            }
+            
         })
+
+
     }
 
     function createParticle(bg, duration) {
@@ -205,9 +222,9 @@
         item.classList.add('firework_item');
         particle.classList.add('particle');
         particle.style.backgroundColor = bg;
-        particle.style.animationDuration = duration;
+        particle.style.animationDuration = `${duration}s`;
         item.appendChild(particle);
-        
+
         return item;
     }
 
@@ -215,8 +232,9 @@
         const fireWorkEl = document.createElement('div');
         const bgColor = ['#EB455F', '#DC0000', '#FFE15D', '#FF6E31', '#F56EB3', 'blue'];
         const bgRandom = Math.floor(Math.random() * bgColor.length);
-        const particleDuration = Math.floor(Math.random() + 0.5);
+        const particleDuration = Math.random() + 0.5;
         fireWorkEl.classList.add('firework');
+        fireWorkEl.style.backgroundColor = bgColor[bgRandom];
         fireWorkEl.style.top = `${Math.floor(Math.random() * window.outerHeight)}px`;
         fireWorkEl.style.left = `${Math.floor(Math.random() * window.outerWidth)}px`;
         for(let i = 0; i < 12; i++) {

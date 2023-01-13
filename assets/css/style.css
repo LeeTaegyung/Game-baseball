@@ -306,16 +306,32 @@ html, body {
   text-shadow: 1px 1px #16345a, -1px -1px #16345a;
   vertical-align: baseline;
 }
-#wrap .reset_btn {
+#wrap .btns_row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+#wrap .btns_row button {
   display: block;
   padding: 5px 12px;
   border: 1px solid #252525;
   font-size: 26px;
   font-weight: 700;
-  color: #252525;
-  background: #fff;
   border-radius: 4px;
   cursor: pointer;
+}
+#wrap .btns_row button + button {
+  margin-left: 10px;
+}
+#wrap .btns_row button.first_btn {
+  color: #252525;
+  background: #fff;
+}
+#wrap .btns_row button.reset_btn {
+  color: #fff;
+  background: #252525;
 }
 #wrap .notice {
   position: fixed;
@@ -335,8 +351,7 @@ html, body {
   width: 3px;
   height: 3px;
   border-radius: 5px;
-  background: #fff;
-  animation: fireworkStart 0.8s forwards ease;
+  animation: fireworkStart 0.8s forwards linear;
 }
 #wrap .firework_item {
   position: absolute;
@@ -352,7 +367,10 @@ html, body {
   background: red;
   border-radius: 2px;
   transform: translateY(0) scaleY(0);
-  animation: firework 0.8s forwards cubic-bezier(0.69, 0.38, 0.82, 0.46) 0.85s;
+  animation-name: firework;
+  animation-timing-function: cubic-bezier(0.69, 0.38, 0.82, 0.46);
+  animation-fill-mode: forwards;
+  animation-delay: 0.85s;
 }
 #wrap .firework_item:nth-of-type(1) {
   transform: translate(-50%, -50%) rotate(0deg);
@@ -412,6 +430,7 @@ html, body {
   90% {
     width: 0;
     height: 0;
+    opacity: 0;
   }
   100% {
     transform: translateY(0) scale(1);

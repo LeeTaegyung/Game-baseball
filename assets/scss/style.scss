@@ -259,17 +259,38 @@
             vertical-align: baseline;
         }
     }
+    .btns_row {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
 
-    .reset_btn {
-        display: block;
-        padding: 5px 12px;
-        border: 1px solid #252525;
-        font-size: 26px;
-        font-weight: 700;
-        color: #252525;
-        background: #fff;
-        border-radius: 4px;
-        cursor: pointer;
+        button {
+            display: block;
+            padding: 5px 12px;
+            border: 1px solid #252525;
+            font-size: 26px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+
+            & + button {
+                margin-left: 10px;
+            }
+
+            &.first_btn {
+                color: #252525;
+                background: #fff;
+            }
+        
+            &.reset_btn {
+                color: #fff;
+                background: #252525;
+            }
+
+        }
+
     }
 
     .notice {
@@ -292,8 +313,7 @@
         width: 3px;
         height: 3px;
         border-radius: 5px;
-        background: #fff;
-        animation: fireworkStart 0.8s forwards ease;
+        animation: fireworkStart 0.8s forwards linear;
 
         &_item {
             position: absolute;
@@ -309,7 +329,10 @@
                 background: red;
                 border-radius: 2px;
                 transform: translateY(0) scaleY(0);
-                animation: firework 0.8s forwards cubic-bezier(0.69, 0.38, 0.82, 0.46) 0.85s;
+                animation-name: firework;
+                animation-timing-function: cubic-bezier(0.69, 0.38, 0.82, 0.46);
+                animation-fill-mode: forwards;
+                animation-delay: 0.85s;
             }
     
             @for $i from 1 through 12 {
@@ -344,6 +367,7 @@
     90% {
         width: 0;
         height: 0;
+        opacity: 0;
     }
     100% {
         transform: translateY(0) scale(1);
